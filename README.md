@@ -56,7 +56,24 @@ For custom usage, consider modifying source code directly or contribute enhancem
 
 ## 🤝 Contributing
 
-Contributions, bug reports, and feature suggestions are welcome! Feel free to open an issue or submit a pull request.
+## 🤝 Contributing
+
+We welcome contributions, bug reports, and feature requests!
+
+- To **report an issue** or suggest a new feature, please [open an issue on GitHub](https://github.com/sonumagnus/organize-imports/issues).
+- To **contribute directly**, submit a pull request on [GitHub](https://github.com/sonumagnus/organize-imports/pulls).
+
+## 🐛 Reporting Issues
+
+Encountered a problem? Please [open an issue](https://github.com/sonumagnus/organize-imports/issues).
+
+## 🌟 Star the Project
+
+If this tool helped you, please star the repository: [⭐ Star on GitHub](https://github.com/sonumagnus/organize-imports)
+
+## 📄 License
+
+Licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## 📄 License
 
