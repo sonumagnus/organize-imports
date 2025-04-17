@@ -56,8 +56,6 @@ For custom usage, consider modifying source code directly or contribute enhancem
 
 ## 🤝 Contributing
 
-## 🤝 Contributing
-
 We welcome contributions, bug reports, and feature requests!
 
 - To **report an issue** or suggest a new feature, please [open an issue on GitHub](https://github.com/sonumagnus/organize-imports/issues).
@@ -74,7 +72,3 @@ If this tool helped you, please star the repository: [⭐ Star on GitHub](https:
 ## 📄 License
 
 Licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## 📄 License
-
-Licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
