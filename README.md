@@ -1,79 +1,58 @@
 # Organize Imports
 
-**Organize Imports** is a convenient, robust utility to automatically organize your project files into appropriate directories based on their import statements. It helps maintain a clean and structured project, saving you from the manual hassle of moving files around.
+**Organize Imports** is a convenient and robust CLI utility to automatically organize your project files into appropriate directories based on their import statements. It maintains a clean and structured project, significantly reducing manual file management.
 
 ## ⚡️ Common Use Case
 
-**Ideal for fixing directory issues** created by automatic import-generation tools like `v0`, which typically place all components and related files into a flat directory structure. This tool easily and quickly reorganizes files into their intended structured directories, reducing manual work significantly.
+**Perfect for fixing directory issues** caused by tools like `v0`, which often place components and related files into a flat directory structure. This utility effortlessly reorganizes files into their intended structured directories.
 
 ## 🔑 Key Features
 
 - **Automatic File Organization:** Moves files into directories automatically based on their imports.
-- **Supports Multiple Source Directories:** Seamlessly works with directories like `components`, `lib`, `hooks`, `utils`, and `types`.
-- **Flexible Import Alias Handling:** Easily customizable import alias (e.g., `@/components`).
-- **CLI and Programmatic Usage:** Use it as a command-line tool or as an importable library in your scripts.
+- **Supports Multiple Source Directories:** Works seamlessly with directories like `components`, `lib`, `hooks`, `utils`, and `types`.
+- **Flexible Import Alias Handling:** Customizable import alias (e.g., `@/components`).
+- **Command-line Only:** Simple CLI commands without the need for additional imports or setup.
 
 ## 📦 Installation
 
 Install with npm:
 
 ```bash
-npm install organize-imports
+npm install @sonulodha/organize-imports
 ```
 
 ## 🚀 Usage
 
 ### CLI Usage
 
-Organize files directly from your command line:
+Use it directly from your command line (recommended):
 
 ```bash
-npx organize-imports ./app
+npx @sonulodha/organize-imports ./app
 ```
 
 If installed globally:
 
 ```bash
+npm install -g @sonulodha/organize-imports
 organize-imports ./app
 ```
 
-### Programmatic Usage
+## ⚙️ Configuration (Optional)
 
-Use it directly in your JavaScript or TypeScript project:
-
-```javascript
-import { organizeProject } from "organize-imports";
-
-organizeProject({ dir: "./app" })
-  .then(() => {
-    console.log("✅ Files have been organized successfully!");
-  })
-  .catch((error) => {
-    console.error(`❌ An error occurred: ${error.message}`);
-  });
-```
-
-## ⚙️ Configuration
-
-Customize behavior by providing an options object:
-
-```javascript
-organizeProject({
-  dir: "./app",
-  sourceFolders: ["components", "lib", "hooks", "utils", "types"],
-  importAlias: "@/components",
-});
-```
+The CLI organizes files based on these sensible defaults:
 
 - `dir`: Directory to organize (default: `"./app"`).
-- `sourceFolders`: Recognized source directories (default: `["components", "lib", "hooks", "utils", "types"]`).
-- `importAlias`: Customizable import alias (default: `"@/"`).
+- `sourceFolders`: Directories considered sources (`["components", "lib", "hooks", "utils", "types"]`).
+- `importAlias`: Import alias (`"@/"`).
+
+For custom usage, consider modifying source code directly or contribute enhancements.
 
 ## 📌 Additional Use Cases
 
-- **React/Next.js Projects:** Maintain clean, well-structured component directories.
-- **Large Codebases:** Quickly reorganize files based on import logic.
-- **Maintainability:** Ensure consistent and easily navigable project structures.
+- **React/Next.js Projects:** Keep component directories structured.
+- **Large Codebases:** Automatically reorganize files logically.
+- **Maintainability:** Maintain consistent, navigable structures.
 
 ## 🤝 Contributing
 

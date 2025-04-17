@@ -1,5 +1,3 @@
-// index.js
-
 import fs from "fs-extra";
 import { glob } from "glob";
 import path from "path";
@@ -28,8 +26,11 @@ export async function organizeProject({
         },
       });
 
+      console.log(`🔍 Parsed imports from: ${filePath}`);
       return imports;
-    } catch {
+    } catch (error) {
+      console.error(`❌ Parsing error in file: ${filePath}`);
+      console.error(error.message);
       return [];
     }
   }
@@ -39,14 +40,15 @@ export async function organizeProject({
     const dest = path.join(destDir, path.basename(src));
     if (path.resolve(src) !== path.resolve(dest)) {
       await fs.move(src, dest, { overwrite: true });
+      console.log(`✅ Moved ${src} → ${dest}`);
     }
   }
 
   async function handleFile(file) {
-    console.log(`📂 Starting to handle file: ${file}`);
+    console.log(`📂 Handling file: ${file}`);
 
     if (path.extname(file) === ".json") {
-      console.log(`⏩ Skipped JSON file: ${file}`);
+      console.log(`⏩ Skipped parsing JSON file: ${file}`);
       return;
     }
 
@@ -54,7 +56,6 @@ export async function organizeProject({
 
     for (const importPath of imports) {
       console.log(`🧩 Processing import: ${importPath}`);
-
       if (importPath.startsWith(importAlias)) {
         const relativePath = importPath.replace(importAlias, "");
         const segments = relativePath.split("/");
@@ -82,32 +83,55 @@ export async function organizeProject({
         }
 
         for (const matchedFile of matchedFiles) {
-          console.log(`✅ Matched and moving file: ${matchedFile}`);
+          console.log(`🔀 Found matched file: ${matchedFile}`);
           await moveFile(matchedFile, destDir);
           await handleFile(path.join(destDir, path.basename(matchedFile)));
         }
       } else if (importPath.startsWith(".")) {
         const sourceDir = path.dirname(file);
         const absoluteImportPath = path.resolve(sourceDir, importPath);
-        let files = await glob(absoluteImportPath);
-        if (!files.length) files = await glob(`${absoluteImportPath}.*`);
+        const globPath = absoluteImportPath.replace(/\\/g, "/");
+
+        let files = await glob(globPath);
+        if (!files.length) {
+          files = await glob(`${globPath}.*`);
+        }
+
+        const destDir = sourceDir;
 
         if (!files.length) {
-          console.log(`❌ No relative files found for import: ${importPath}`);
+          console.log(
+            `❌ No relative file found at first attempt for import: ${importPath}`
+          );
+
+          for (const folder of sourceFolders) {
+            const fallbackGlob = path
+              .join(folder, path.basename(importPath) + ".*")
+              .replace(/\\/g, "/");
+            const fallbackFiles = await glob(fallbackGlob);
+            if (fallbackFiles.length) {
+              console.log(
+                `🔀 Found fallback matched file: ${fallbackFiles[0]}`
+              );
+              await moveFile(fallbackFiles[0], destDir);
+              await handleFile(
+                path.join(destDir, path.basename(fallbackFiles[0]))
+              );
+              break;
+            }
+          }
           continue;
         }
 
         for (const matchedFile of files) {
-          console.log(`✅ Matched and moving relative file: ${matchedFile}`);
-          await moveFile(matchedFile, sourceDir);
-          await handleFile(path.join(sourceDir, path.basename(matchedFile)));
+          console.log(`🔀 Found relative matched file: ${matchedFile}`);
+          await moveFile(matchedFile, destDir);
+          await handleFile(path.join(destDir, path.basename(matchedFile)));
         }
       } else {
         console.log(`⏩ Skipped external module import: ${importPath}`);
       }
     }
-
-    console.log(`🏁 Finished handling file: ${file}`);
   }
 
   const files = await glob(`${dir}/**/*.{ts,tsx,js,jsx,json}`, {
@@ -115,7 +139,16 @@ export async function organizeProject({
   });
 
   const normalizedFiles = files.map((file) => file.replace(/\\/g, "/"));
+  console.log({ normalizedFiles });
+
+  console.log(`🚀 Organizing project files from directory: ${dir}`);
   for (const file of normalizedFiles) {
     await handleFile(file);
   }
+  console.log("🎉 File organization complete!");
+}
+
+// Direct execution for local testing
+if (import.meta.url === `file://${process.argv[1]}`) {
+  organizeProject({ dir: "./app" }).catch(console.error);
 }
