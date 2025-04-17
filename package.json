@@ -1,0 +1,33 @@
+{
+  "name": "organize-imports",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "organize-imports": "./cli.js"
+  },
+  "keywords": [
+    "organize",
+    "imports",
+    "nextjs",
+    "v0",
+    "project-structure"
+  ],
+  "author": "Sonu Lodha",
+  "license": "MIT",
+  "description": "Automatically organize your project's files based on import statements",
+  "dependencies": {
+    "@babel/parser": "^7.27.0",
+    "@babel/traverse": "^7.27.0",
+    "fs-extra": "^11.3.0",
+    "glob": "^11.0.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/glob": "^8.1.0",
+    "@types/node": "^22.14.1",
+    "typescript": "^5.8.3"
+  }
+}
